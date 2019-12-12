@@ -9,17 +9,25 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    height: 40,
+    height: 50,
     flexDirection: 'row',
     alignItems: 'stretch',
+    justifyContent: 'center',
+    borderBottomColor: '#d3d3d3',
+    borderBottomWidth: 1,
+
   },
   itemText: {
     flexGrow: 1,
+    justifyContent: 'center'
   },
-  deleteButton: {
-    height: 40,
-    width: 40,
-  },
+  addButtonStyle: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#00CCFF',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
 
 export default styles;

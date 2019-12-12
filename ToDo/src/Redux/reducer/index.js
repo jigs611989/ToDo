@@ -1,7 +1,7 @@
 import types from '../types'
 
-const INITIAL_STATE = [
-    { id: 1, text: 'Plain Item 1' }
+export const INITIAL_STATE = [
+    { id: 1, text: 'Item 1' }
   ];
 
 export default (state = INITIAL_STATE, action) => {
