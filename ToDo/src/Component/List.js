@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import { addItem, updateItem, deleteItem } from '../Redux/actions';
-import { Creators } from '../ReduxSauce/store';
-import styles from './Styles/ListStyle'
+import { addItem, updateItem, deleteItem } from '../StateManagment/Redux/actions';
+import { Creators } from '../StateManagment/ReduxSauce';
+import styles from './Styles/ListStyle';
 import Swipeout from 'react-native-swipeout';
 import DialogInput from 'react-native-dialog-input';
 
@@ -96,8 +96,8 @@ class List extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    todos: state
+const mapStateToProps = ({reducerNormal, reducerSaurce}, ownProps) => ({
+    todos: ownProps.useSauce ? reducerSaurce : reducerNormal
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {

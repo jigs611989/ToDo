@@ -1,4 +1,3 @@
-import { createStore } from 'redux'
 import { createReducer, createActions } from "reduxsauce"
 import { INITIAL_STATE } from '../Redux/reducer'
 
@@ -11,6 +10,7 @@ export const { Types, Creators } = createActions({
 
 // Handle Actions
 const addHandler = (state = INITIAL_STATE, action) => {
+    console.log('add sauce')
     return [...state, action.payload]
 }
 
@@ -33,8 +33,6 @@ const handlers = {
     [Types.DELETE]: deleteHandler
 }
   
-const reducer = createReducer(INITIAL_STATE, handlers)
-  
-const store = createStore(reducer);
+const reducer = createReducer(INITIAL_STATE, handlers);
 
-export default store;
+export default reducer;

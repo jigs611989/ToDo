@@ -13,6 +13,8 @@ export default (state = INITIAL_STATE, action) => {
     switch(type) {
 
         case types.add:
+                console.log('add normal')
+
             todos.push(payload)
             return todos
 
