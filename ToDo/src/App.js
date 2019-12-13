@@ -1,6 +1,6 @@
 import React from 'react'
 import AppNvigator from './Navigation/AppNavigation'
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import store from './StateManagment/store'
 
 const App: () => React$Node = () => {

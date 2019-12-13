@@ -1,11 +1,13 @@
 import React from 'react'
-import {SafeAreaView} from 'react-native'
-import List from '../Component/List'
+import { SafeAreaView } from 'react-native'
+// import List from '../Component/List'
+import ListHooks from '../Component/ListHooks'
 
 const ReduxTodoScreen = () => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#f0f0f0'}}>
-      <List />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
+      {/* <List /> */}
+      <ListHooks />
     </SafeAreaView>
   )
 }

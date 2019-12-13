@@ -1,38 +1,15 @@
-import React, {Component} from 'react'
-import {Text, View, TouchableOpacity, FlatList} from 'react-native'
-import {connect} from 'react-redux'
-import {addItem, updateItem, deleteItem} from '../StateManagment/Redux/actions'
-import {Creators} from '../StateManagment/ReduxSauce'
+import React, { Component } from 'react'
+import { Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { connect } from 'react-redux'
+import {
+  addItem,
+  updateItem,
+  deleteItem,
+} from '../StateManagment/Redux/actions'
+import { Creators } from '../StateManagment/ReduxSauce'
 import styles from './Styles/ListStyle'
-import Swipeout from 'react-native-swipeout'
 import DialogInput from 'react-native-dialog-input'
-
-const TodoItem = ({item: todo, onDelete, onUpdateItem}) => {
-  let swipeBtns = [
-    {
-      text: 'Delete',
-      backgroundColor: 'red',
-      underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
-      onPress: () => {
-        onDelete(todo)
-      },
-    },
-  ]
-
-  return (
-    <Swipeout right={swipeBtns} autoClose="true" backgroundColor="transparent">
-      <View style={styles.item}>
-        <TouchableOpacity
-          style={styles.itemText}
-          onPress={() => onUpdateItem(todo)}>
-          <Text>
-            <Text>{todo.text}</Text>
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </Swipeout>
-  )
-}
+import { TodoItem } from './TodoItem'
 
 class List extends Component {
   constructor(props) {
@@ -45,7 +22,7 @@ class List extends Component {
 
   addItem = inputText => {
     const now = new Date()
-    this.props.addItem({id: now.getTime(), text: inputText})
+    this.props.addItem({ id: now.getTime(), text: inputText })
   }
 
   updateItem = todo => {
@@ -60,8 +37,8 @@ class List extends Component {
   }
 
   render() {
-    const {todos} = this.props
-    const {isDialogVisible, editToDO} = this.state
+    const { todos } = this.props
+    const { isDialogVisible, editToDO } = this.state
 
     return (
       <View style={styles.container}>
@@ -78,7 +55,9 @@ class List extends Component {
           )}
         />
         <TouchableOpacity
-          onPress={() => this.setState({isDialogVisible: true, editToDO: null})}
+          onPress={() =>
+            this.setState({ isDialogVisible: true, editToDO: null })
+          }
           style={styles.addButtonStyle}>
           <Text>Add</Text>
         </TouchableOpacity>
@@ -90,21 +69,21 @@ class List extends Component {
           initValueTextInput={editToDO ? editToDO.text : null}
           submitInput={inputText => {
             if (editToDO) {
-              this.props.updateItem({...editToDO, text: inputText})
-              this.setState({isDialogVisible: false, editToDO: null})
+              this.props.updateItem({ ...editToDO, text: inputText })
+              this.setState({ isDialogVisible: false, editToDO: null })
             } else {
               this.addItem(inputText)
-              this.setState({isDialogVisible: false})
+              this.setState({ isDialogVisible: false })
             }
           }}
-          closeDialog={() => this.setState({isDialogVisible: false})}
+          closeDialog={() => this.setState({ isDialogVisible: false })}
         />
       </View>
     )
   }
 }
 
-const mapStateToProps = ({reducerNormal, reducerSaurce}, ownProps) => ({
+const mapStateToProps = ({ reducerNormal, reducerSaurce }, ownProps) => ({
   todos: ownProps.useSauce ? reducerSaurce : reducerNormal,
 })
 
