@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   list: {
     margin: 10,
@@ -15,19 +15,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderBottomColor: '#d3d3d3',
     borderBottomWidth: 1,
-
   },
   itemText: {
     flexGrow: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   addButtonStyle: {
     width: '100%',
     height: 50,
     backgroundColor: '#00CCFF',
     alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
+    justifyContent: 'center',
+  },
+})
 
-export default styles;
+export default styles
