@@ -4,7 +4,7 @@ import styles from './Styles/ListStyle'
 import Swipeout from 'react-native-swipeout'
 
 export const TodoItem = ({ item: todo, onDelete, onUpdateItem }) => {
-  let swipeBtns = [
+  const swipeBtns = [
     {
       text: 'Delete',
       backgroundColor: 'red',

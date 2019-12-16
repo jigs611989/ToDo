@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import DialogInput from 'react-native-dialog-input'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,14 @@ import { Creators } from '../StateManagment/ReduxSauce'
 import styles from './Styles/ListStyle'
 import { TodoItem } from './TodoItem'
 
+function addToDoItem(inputText, useSauce, dispatch) {
+  const now = new Date()
+  const payload = { id: now.getTime(), text: inputText }
+  const normalAddAction = addItem(payload)
+  const sauceAddAction = Creators.add(payload)
+  useSauce ? dispatch(sauceAddAction) : dispatch(normalAddAction)
+}
+
 const ListHooks = props => {
   const { useSauce } = props
   const [isDialogVisible, setDialogVisible] = useState(false)
@@ -20,40 +28,43 @@ const ListHooks = props => {
   )
   const dispatch = useDispatch()
 
-  const addToDoItem = inputText => {
-    const now = new Date()
-    const payload = { id: now.getTime(), text: inputText }
-    const normalAddAction = addItem(payload)
-    const sauceAddAction = Creators.add(payload)
-    useSauce ? dispatch(sauceAddAction) : dispatch(normalAddAction)
-  }
+  const updateToDoItem = useCallback(
+    todo => {
+      setDialogVisible(true)
+      setEditToDO(todo)
+    },
+    [setDialogVisible, setEditToDO],
+  )
 
-  const updateToDoItem = todo => {
-    setDialogVisible(true)
-    setEditToDO(todo)
-  }
+  const deleteToDoItem = useCallback(
+    payload => {
+      const normalDeleteAction = deleteItem(payload)
+      const sauceDeleteAction = Creators.delete(payload)
+      useSauce ? dispatch(sauceDeleteAction) : dispatch(normalDeleteAction)
+    },
+    [useSauce, dispatch],
+  )
 
-  const deleteToDoItem = payload => {
-    const normalDeleteAction = deleteItem(payload)
-    const sauceDeleteAction = Creators.delete(payload)
-    useSauce ? dispatch(sauceDeleteAction) : dispatch(normalDeleteAction)
-  }
+  const submitInput = useCallback(
+    inputText => {
+      if (editToDO) {
+        const payload = { ...editToDO, text: inputText }
+        const normalUpdateAction = updateItem(payload)
+        const sauceUpdateAction = Creators.update(payload)
+        useSauce ? dispatch(sauceUpdateAction) : dispatch(normalUpdateAction)
+        setDialogVisible(false)
+        setEditToDO(null)
+      } else {
+        addToDoItem(inputText, useSauce, dispatch)
+        setDialogVisible(false)
+      }
+    },
+    [dispatch, editToDO, useSauce],
+  )
 
-  const submitInput = inputText => {
-    if (editToDO) {
-      const payload = { ...editToDO, text: inputText }
-      const normalUpdateAction = updateItem(payload)
-      const sauceUpdateAction = Creators.update(payload)
-      useSauce ? dispatch(sauceUpdateAction) : dispatch(normalUpdateAction)
-      setDialogVisible(false)
-      setEditToDO(null)
-    } else {
-      addToDoItem(inputText)
-      setDialogVisible(false)
-    }
-  }
-
-  const closeDialog = () => setDialogVisible(false)
+  const closeDialog = useCallback(() => setDialogVisible(false), [
+    setDialogVisible,
+  ])
 
   return (
     <View style={styles.container}>
