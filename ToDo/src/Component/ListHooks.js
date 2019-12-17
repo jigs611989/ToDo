@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext, useRef } from 'react'
 import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import DialogInput from 'react-native-dialog-input'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,6 +10,7 @@ import {
 import { Creators } from '../StateManagment/ReduxSauce'
 import styles from './Styles/ListStyle'
 import { TodoItem } from './TodoItem'
+import ThemeContext from '../Contexts/ThemeContext'
 
 function addToDoItem(inputText, useSauce, dispatch) {
   const now = new Date()
@@ -27,6 +28,8 @@ const ListHooks = props => {
     useSauce ? reducerSaurce : reducerNormal,
   )
   const dispatch = useDispatch()
+  const theme = useContext(ThemeContext)
+  const addTextRef = useRef(null)
 
   const updateToDoItem = useCallback(
     todo => {
@@ -57,6 +60,7 @@ const ListHooks = props => {
       } else {
         addToDoItem(inputText, useSauce, dispatch)
         setDialogVisible(false)
+        console.log('addbutton: ', addTextRef.current)
       }
     },
     [dispatch, editToDO, useSauce],
@@ -86,7 +90,14 @@ const ListHooks = props => {
           setEditToDO(null)
         }}
         style={styles.addButtonStyle}>
-        <Text>Add</Text>
+        <Text
+          ref={addTextRef}
+          style={{
+            backgroundColor: theme.background,
+            color: theme.foreground,
+          }}>
+          Add
+        </Text>
       </TouchableOpacity>
       <DialogInput
         isDialogVisible={isDialogVisible}
